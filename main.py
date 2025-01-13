@@ -3,24 +3,26 @@ from PyQt6 import uic
 from PyQt6.QtGui import QPainter, QPen, QColor
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from random import randint
+from UI import Ui_Form
 
 
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_Form):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
+        self.setupUi(self)
 
-        self.setWindowTitle("Жёлтые круги")
-        self.pushButton.setToolTip("Нажмите на кнопку, и появятся жёлтые круги")
+        self.setWindowTitle("Разноцветные круги")
+        self.pushButton.setToolTip("Нажмите на кнопку, и появятся разноцветные круги")
         self.pushButton.clicked.connect(self.update)
 
     def paintEvent(self, event):
         painter = QPainter(self)
 
         painter.begin(self)
-        pen = QPen(QColor(255, 255, 0), 1)
+        color = QColor(randint(0, 255), randint(0, 255), randint(0, 255))
+        pen = QPen(color, 1)
         painter.setPen(pen)
-        painter.setBrush(QColor(255, 255, 0))
+        painter.setBrush(color)
 
         size = randint(10, 50)
         painter.drawEllipse(randint(50, 350), randint(80, 250), size, size)
